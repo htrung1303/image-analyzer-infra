@@ -9,7 +9,21 @@ output "aws_account_id" {
   description = "Show information about project, environment and account"
 }
 
-#Output modules
+output "iam_role_ecs_execution_arn" {
+  value       = module.iam_role_ecs_execution.iam_role_arn
+  description = "ARN of ECS Task Execution Role - Used by ECS service to manage containers"
+}
+
+output "iam_role_ecs_task_arn" {
+  value       = module.iam_role_ecs_task.iam_role_arn
+  description = "ARN of ECS Task Role - Used by application code running in containers"
+}
+
+output "iam_role_lambda_ai_processor_arn" {
+  value       = module.iam_role_lambda_ai_processor.iam_role_arn
+  description = "ARN of Lambda AI Processor Role - Used by AI image analysis functions"
+}
+
 output "iam_role_lambda_example_admin_arn" {
   value       = module.iam_role_lambda_example_admin.iam_role_arn
   description = "ARN of IAM Role Lambda Example Admin"
