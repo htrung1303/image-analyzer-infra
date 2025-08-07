@@ -1,5 +1,5 @@
 ###################
-# Admin Initialization
+# Monitoring Initialization
 ###################
 terraform {
   required_version = ">= 1.3.9"
@@ -14,7 +14,7 @@ terraform {
   backend "s3" {
     profile = "image-analyzer-infra-dev"
     bucket  = "image-analyzer-infra-dev-iac-state"
-    key     = "admin/terraform.dev.tfstate"
+    key     = "monitoring/terraform.dev.tfstate"
     region  = "ap-northeast-1"
     encrypt        = true
     kms_key_id     = "arn:aws:kms:ap-northeast-1:354852166473:key/27a3edec-d150-4011-9079-ddcf25cd5b6d"
