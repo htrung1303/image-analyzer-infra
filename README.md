@@ -27,6 +27,9 @@ This is a mock project for practicing of building the infrastructure for a syste
 | Secret Management  | AWS Secrets Manager | Secret management for the web application |
 | Role-based Access Control  | AWS IAM | Role-based access control for the web application |
 | Communication between VPC and AWS Services  | AWS PrivateLink and Interface VPC Endpoint | Communication between VPC and AWS Services |
+| Internet Access  | AWS NAT Gateway & Internet Gateway | Internet access for the Lambda function |
+| Network Routing Table  | AWS Route Table | Network routing table for the web application |
+| Network Security Group  | AWS Security Group | Network security group for the web application |
 
 ## 🔒 Security and 📊 Monitoring
 
