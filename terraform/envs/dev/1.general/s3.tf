@@ -16,9 +16,7 @@ module "s3_images" {
         id = "manage_image_lifecycle"
         status = "Enabled"
         expiration_days = 90
-        transition_days = 30
         transition_days_standard_ia = 30
-        transition_days_glacier = 90
       }
     ]
   }
@@ -40,10 +38,8 @@ module "s3_alb_logs" {
       {
         id = "manage_alb_logs_lifecycle"
         status = "Enabled"
-        expiration_days = 30
-        transition_days = 30
+        expiration_days = 90
         transition_days_standard_ia = 30
-        transition_days_glacier = 90
       }
     ]
   }
@@ -65,10 +61,8 @@ module "s3_app_logs" {
       {
         id = "manage_app_logs_lifecycle"
         status = "Enabled"
-        expiration_days = 30
-        transition_days = 30
+        expiration_days = 90
         transition_days_standard_ia = 30
-        transition_days_glacier = 90
       }
     ]
   }
@@ -90,10 +84,8 @@ module "s3_lambda_deployments" {
       {
         id = "manage_lambda_deployments_lifecycle"
         status = "Enabled"
-        expiration_days = 90
-        transition_days = 30
-        transition_days_standard_ia = 30
-        transition_days_glacier = 90
+        expiration_days = 180
+        transition_days_standard_ia = 60
       }
     ]
   }

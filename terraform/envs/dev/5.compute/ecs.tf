@@ -32,16 +32,19 @@ module "ecs_api" {
         total_cpu     = var.ecs.api.task_cpu
         task_role_arn = data.terraform_remote_state.admin.outputs.iam_role_ecs_task_arn
         container_definitions = {
-          template = "${path.module}/ecs-task-definition/api.json"
+          template = "${path.module}/ecs-task-definition/web.json"
           vars = {
-            name           = var.ecs.api.container_name
-            image          = var.ecs.api.image
-            tag            = var.ecs.api.tag
-            containerPort  = var.ecs.api.port
-            hostPort       = var.ecs.api.port
-            env            = var.env
-            awslogs_group  = data.terraform_remote_state.monitoring.outputs.cloudwatch_log_group_ecs_cluster_name
-            awslogs_region = var.region
+            name                    = var.ecs.api.container_name
+            image                   = var.ecs.api.image
+            tag                     = var.ecs.api.tag
+            containerPort           = var.ecs.api.port
+            hostPort                = var.ecs.api.port
+            env                     = var.env
+            awslogs_group           = data.terraform_remote_state.monitoring.outputs.cloudwatch_log_group_ecs_cluster_name
+            awslogs_region          = var.region
+            s3_bucket_name          = data.terraform_remote_state.general.outputs.s3_images_bucket_name
+            sqs_worker_queue_url    = data.terraform_remote_state.messaging.outputs.sqs_worker_queue_url
+            sqs_results_queue_url   = data.terraform_remote_state.messaging.outputs.sqs_results_queue_url
           }
         }
       }

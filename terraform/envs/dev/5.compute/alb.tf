@@ -27,7 +27,7 @@ module "alb_bg_ecs" {
         port        = 3000
         health_check = {
           port                = 3000
-          path                = "/health_check"
+          path                = "/api/health"
           unhealthy_threshold = 10
           interval            = 300
           timeout             = 120
@@ -39,7 +39,7 @@ module "alb_bg_ecs" {
         port        = 3000
         health_check = {
           port                = 3000
-          path                = "/health_check"
+          path                = "/api/health"
           unhealthy_threshold = 10
           interval            = 300
           timeout             = 120
