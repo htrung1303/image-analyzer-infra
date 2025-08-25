@@ -23,8 +23,3 @@ output "iam_role_lambda_ai_processor_arn" {
   value       = module.iam_role_lambda_ai_processor.iam_role_arn
   description = "ARN of Lambda AI Processor Role - Used by AI image analysis functions"
 }
-
-output "iam_role_lambda_example_admin_arn" {
-  value       = module.iam_role_lambda_example_admin.iam_role_arn
-  description = "ARN of IAM Role Lambda Example Admin"
-}

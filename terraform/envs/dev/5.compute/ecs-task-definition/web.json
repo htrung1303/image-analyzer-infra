@@ -1,0 +1,66 @@
+[
+  {
+    "name": "${name}",
+    "image": "${image}:${tag}",
+    "portMappings": [
+      {
+        "containerPort": "${containerPort}",
+        "hostPort": "${hostPort}",
+        "protocol": "tcp"
+      }
+    ],
+    "essential": true,
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${awslogs_group}",
+        "awslogs-region": "${awslogs_region}",
+        "awslogs-stream-prefix": "ecs"
+      }
+    },
+    "environment": [
+      {
+        "name": "NODE_ENV",
+        "value": "production"
+      },
+      {
+        "name": "PORT",
+        "value": "3000"
+      },
+      {
+        "name": "ENVIRONMENT", 
+        "value": "${env}"
+      },
+      {
+        "name": "AWS_REGION",
+        "value": "${awslogs_region}"
+      },
+      {
+        "name": "AWS_DEFAULT_REGION",
+        "value": "${awslogs_region}"
+      },
+      {
+        "name": "AWS_S3_BUCKET_NAME",
+        "value": "${s3_bucket_name}"
+      },
+      {
+        "name": "AWS_SQS_PROCESS_QUEUE_URL",
+        "value": "${sqs_worker_queue_url}"
+      },
+      {
+        "name": "AWS_SQS_RESULTS_QUEUE_URL",
+        "value": "${sqs_results_queue_url}"
+      }
+    ],
+    "healthCheck": {
+      "command": [
+        "CMD-SHELL",
+        "curl -f http://localhost:${containerPort}/api/health || exit 1"
+      ],
+      "interval": 30,
+      "timeout": 5,
+      "retries": 3,
+      "startPeriod": 60
+    }
+  }
+]

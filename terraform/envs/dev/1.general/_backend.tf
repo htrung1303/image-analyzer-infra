@@ -17,7 +17,7 @@ terraform {
     key     = "general/terraform.dev.tfstate"
     region  = "ap-northeast-1"
     encrypt        = true
-    kms_key_id     = "arn:aws:kms:ap-northeast-1:354852166473:key/be2d96be-8d0d-4256-9ba8-d7950d44d101"
+    kms_key_id     = "arn:aws:kms:ap-northeast-1:128331473073:key/6cf90cba-6e29-4e4d-b948-f0526c14fb28"
     dynamodb_table = "image-analyzer-infra-dev-terraform-state-lock"
   }
 }

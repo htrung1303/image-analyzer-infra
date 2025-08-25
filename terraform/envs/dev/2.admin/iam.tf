@@ -146,17 +146,6 @@ data "aws_iam_policy_document" "assume_role_ecs_tasks" {
   }
 }
 
-data "aws_iam_policy_document" "assume_role_lambda" {
-  statement {
-    actions = ["sts:AssumeRole"]
-    
-    principals {
-      type        = "Service"
-      identifiers = ["lambda.amazonaws.com"]
-    }
-  }
-}
-
 module "iam_role_lambda_ai_processor" {
   source = "git@github.com:framgia/sun-infra-iac.git//modules/iam-role?ref=terraform-aws-iam_v0.1.2"
   
@@ -229,67 +218,4 @@ module "iam_role_lambda_ai_processor" {
   }
 }
 
-module "iam_role_lambda_example_admin" {
-  source = "git@github.com:framgia/sun-infra-iac.git//modules/iam-role?ref=terraform-aws-iam_v0.1.2"
-  #basic
-  env     = var.env
-  project = var.project
-  service = "lambda"
 
-  #iam-role
-  name               = "lambda-example-admin"
-  assume_role_policy = data.aws_iam_policy_document.assume_role_lambda.json
-  iam_custom_policy = {
-    template = jsonencode(
-      {
-        "Version" : "2012-10-17",
-        "Statement" : [
-          {
-            "Sid" : "AllowCloudWatchLogs",
-            "Effect" : "Allow",
-            "Action" : [
-              "logs:CreateLogGroup",
-              "logs:CreateLogStream", 
-              "logs:PutLogEvents"
-            ],
-            "Resource" : "arn:aws:logs:${var.region}:*:log-group:/aws/lambda/${var.project}-${var.env}-*"
-          },
-          {
-            "Sid" : "AllowSSMParameters",
-            "Effect" : "Allow",
-            "Action" : [
-              "ssm:GetParameter",
-              "ssm:GetParameters"
-            ],
-            "Resource" : "arn:aws:ssm:${var.region}:*:parameter/${var.project}/${var.env}/*"
-          },
-          {
-            "Sid" : "AllowKMSDecryption",
-            "Effect" : "Allow",
-            "Action" : [
-              "kms:Decrypt",
-              "kms:GenerateDataKey"
-            ],
-            "Resource" : "arn:aws:kms:${var.region}:*:key/*",
-            "Condition" : {
-              "StringEquals" : {
-                "kms:ViaService" : [
-                  "s3.${var.region}.amazonaws.com",
-                  "ssm.${var.region}.amazonaws.com"
-                ]
-              }
-            }
-          },
-          {
-            "Sid" : "AllowPassRole",
-            "Effect" : "Allow",
-            "Action" : [
-              "iam:PassRole"
-            ],
-            "Resource" : data.terraform_remote_state.general.outputs.iam_role_lambda_example_arn
-          }
-        ]
-      }
-    )
-  }
-}

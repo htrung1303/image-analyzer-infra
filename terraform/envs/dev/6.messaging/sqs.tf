@@ -70,3 +70,50 @@ module "sqs_worker_dlq" {
     sourceQueueArns   = [module.sqs_worker.sqs_arn]
   }
 }
+
+# SQS Results Queue - For Lambda to send analysis results back to ECS
+module "sqs_results" {
+  source = "git@github.com:sun-asterisk-internal/sun-infra-iac.git//modules/aws/sqs?ref=terraform-aws-sqs_v0.0.1"
+  #basic
+  env     = var.env
+  project = var.project
+
+  #sqs
+  sqs = {
+    name       = "results"
+    fifo_queue = false  # Standard queue for results
+    
+    kms_master_key_id                 = data.terraform_remote_state.general.outputs.kms_sqs_messages_key_arn
+    kms_data_key_reuse_period_seconds = 300
+    
+    policy = jsonencode(
+      {
+        "Version" : "2012-10-17",
+        "Statement" : [
+          {
+            "Sid" : "AllowLambdaToSendResults",
+            "Effect" : "Allow",
+            "Principal" : {
+              "AWS" : data.terraform_remote_state.admin.outputs.iam_role_lambda_ai_processor_arn
+            },
+            "Action" : "sqs:SendMessage",
+            "Resource" : "*"
+          },
+          {
+            "Sid" : "AllowECSToReceiveResults", 
+            "Effect" : "Allow",
+            "Principal" : {
+              "AWS" : data.terraform_remote_state.admin.outputs.iam_role_ecs_task_arn
+            },
+            "Action" : [
+              "sqs:ReceiveMessage",
+              "sqs:DeleteMessage",
+              "sqs:GetQueueAttributes"
+            ],
+            "Resource" : "*"
+          }
+        ]
+      }
+    )
+  }
+}

@@ -36,26 +36,6 @@ resource "aws_kms_key" "s3_images" {
           }
         }
       },
-      {
-        Sid    = "Allow ECS and Lambda to use the key"
-        Effect = "Allow"
-        Principal = {
-          AWS = [
-            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.project}-${var.env}-ecs-task",
-            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.project}-${var.env}-lambda-ai-processor"
-          ]
-        }
-        Action = [
-          "kms:Decrypt",
-          "kms:GenerateDataKey"
-        ]
-        Resource = "*"
-        Condition = {
-          StringEquals = {
-            "kms:ViaService" = "s3.${var.region}.amazonaws.com"
-          }
-        }
-      }
     ]
   })
 
@@ -106,26 +86,6 @@ resource "aws_kms_key" "sqs_messages" {
           }
         }
       },
-      {
-        Sid    = "Allow ECS and Lambda to use the key"
-        Effect = "Allow"
-        Principal = {
-          AWS = [
-            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.project}-${var.env}-ecs-task",
-            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.project}-${var.env}-lambda-ai-processor"
-          ]
-        }
-        Action = [
-          "kms:Decrypt",
-          "kms:GenerateDataKey"
-        ]
-        Resource = "*"
-        Condition = {
-          StringEquals = {
-            "kms:ViaService" = "sqs.${var.region}.amazonaws.com"
-          }
-        }
-      }
     ]
   })
 

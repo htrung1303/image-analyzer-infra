@@ -22,3 +22,13 @@ output "sqs_worker_dlq_queue_url" {
   value       = module.sqs_worker_dlq.sqs_url
   description = "URL of SQS worker dead letter queue"
 }
+
+output "sqs_results_queue_url" {
+  value       = module.sqs_results.sqs_url
+  description = "URL of SQS results queue for Lambda to send analysis results"
+}
+
+output "sqs_results_queue_arn" {
+  value       = module.sqs_results.sqs_arn
+  description = "ARN of SQS results queue"
+}
