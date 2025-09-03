@@ -1,1 +1,0 @@
-/home/phan.hoang.trung@sun-asterisk.com/Workspace/htrung1303.github.io/image-analyzer-infra/terraform/envs/dev/_variables.tf
