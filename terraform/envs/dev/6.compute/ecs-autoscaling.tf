@@ -1,13 +1,16 @@
 module "ecs_appautoscaling_api" {
-  source = "git@github.com:sun-asterisk-internal/sun-infra-iac.git//modules/aws/ecs-appautoscaling?ref=terraform-aws-ecs_v0.0.1"
+  source = "git@github.com:sun-asterisk-internal/sun-infra-iac.git//modules/ecs-appautoscaling?ref=terraform-aws-ecs_v0.0.1"
+  
+  depends_on = [module.ecs_api]
+  
   #basic
   project = var.project
   env     = var.env
 
   #ecs-appautoscaling
   ecs_appautoscaling_target = {
-    cluster_name = "${var.project}-${var.env}-ecs-cluster"
-    service_name = "${var.project}-${var.env}-ecs-service"
+    cluster_name = module.ecs_api.ecs_cluster_name
+    service_name = module.ecs_api.ecs_service_name[var.ecs.api.type]
     min_capacity = var.ecs.api.task_min_capacity
     max_capacity = var.ecs.api.task_max_capacity
   }

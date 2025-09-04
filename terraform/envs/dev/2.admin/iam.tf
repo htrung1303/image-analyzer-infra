@@ -195,6 +195,18 @@ module "iam_role_lambda_ai_processor" {
           "Resource" : "arn:aws:logs:${var.region}:*:log-group:/aws/lambda/${var.project}-${var.env}-ai-*"
         },
         {
+          "Sid" : "AllowVPCNetworkInterface",
+          "Effect" : "Allow",
+          "Action" : [
+            "ec2:CreateNetworkInterface",
+            "ec2:DescribeNetworkInterfaces",
+            "ec2:DeleteNetworkInterface",
+            "ec2:AttachNetworkInterface",
+            "ec2:DetachNetworkInterface"
+          ],
+          "Resource" : "*"
+        },
+        {
           "Sid" : "AllowKMSForEncryption",
           "Effect" : "Allow",
           "Action" : [

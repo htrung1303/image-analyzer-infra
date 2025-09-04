@@ -32,5 +32,6 @@ terraform/envs/dev/3.database/_variables.tf
 terraform/envs/dev/4.compute/_variables.tf
 terraform/envs/dev/5.messaging/_variables.tf
 terraform/envs/dev/6.monitoring/_variables.tf
+terraform/envs/dev/terraform.dev.tfvars
 
 .cursor/*

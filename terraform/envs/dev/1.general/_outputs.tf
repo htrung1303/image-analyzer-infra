@@ -34,26 +34,6 @@ output "s3_alb_logs_bucket_id" {
   description = "ID of S3 Bucket for ALB Access Logs"
 }
 
-output "s3_app_logs_bucket_name" {
-  value       = module.s3_app_logs.s3_bucket_id
-  description = "Name of S3 Bucket for Application Logs"
-}
-
-output "s3_app_logs_bucket_arn" {
-  value       = module.s3_app_logs.s3_bucket_arn
-  description = "ARN of S3 Bucket for Application Logs"
-}
-
-output "s3_lambda_deployments_bucket_name" {
-  value       = module.s3_lambda_deployments.s3_bucket_id
-  description = "Name of S3 Bucket for Lambda Deployments"
-}
-
-output "s3_lambda_deployments_bucket_arn" {
-  value       = module.s3_lambda_deployments.s3_bucket_arn
-  description = "ARN of S3 Bucket for Lambda Deployments"
-}
-
 #Subnet
 output "subnet_private_id" {
   value       = module.vpc.subnet_private_id

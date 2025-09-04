@@ -9,6 +9,11 @@ output "aws_account_id" {
 }
 
 output "cloudwatch_log_group_ecs_cluster_name" {
-  value       = module.cloudwatch_log_group_ecs_cluster.name
+  value       = module.cloudwatch_log_group_ecs_cluster.cloudwatch_log_group_name
   description = "Name of Cloudwatch Log Group for ECS Cluster"
+}
+
+output "cloudwatch_log_group_ecs_cluster_arn" {
+  value       = module.cloudwatch_log_group_ecs_cluster.cloudwatch_log_group_arn
+  description = "ARN of Cloudwatch Log Group for ECS Cluster"
 }
