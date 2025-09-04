@@ -10,6 +10,10 @@ terraform {
       version = ">= 4.0"
     }
     template = "~> 2.0"
+    archive = {
+      source  = "hashicorp/archive"
+      version = "~> 2.0"
+    }
   }
   backend "s3" {
     profile = "image-analyzer-infra-dev"
@@ -38,6 +42,7 @@ data "aws_caller_identity" "current" {}
 data "terraform_remote_state" "general" {
   backend = "s3"
   config = {
+    profile = "image-analyzer-infra-dev"
     bucket = "image-analyzer-infra-dev-iac-state"
     key    = "general/terraform.dev.tfstate"
     region = "ap-northeast-1"
@@ -47,6 +52,7 @@ data "terraform_remote_state" "general" {
 data "terraform_remote_state" "admin" {
   backend = "s3"
   config = {
+    profile = "image-analyzer-infra-dev"
     bucket = "image-analyzer-infra-dev-iac-state"
     key    = "admin/terraform.dev.tfstate"
     region = "ap-northeast-1"
@@ -56,6 +62,7 @@ data "terraform_remote_state" "admin" {
 data "terraform_remote_state" "messaging" {
   backend = "s3"
   config = {
+    profile = "image-analyzer-infra-dev"
     bucket = "image-analyzer-infra-dev-iac-state"
     key    = "messaging/terraform.dev.tfstate"
     region = "ap-northeast-1"
@@ -65,6 +72,7 @@ data "terraform_remote_state" "messaging" {
 data "terraform_remote_state" "monitoring" {
   backend = "s3"
   config = {
+    profile = "image-analyzer-infra-dev"
     bucket = "image-analyzer-infra-dev-iac-state"
     key    = "monitoring/terraform.dev.tfstate"
     region = "ap-northeast-1"

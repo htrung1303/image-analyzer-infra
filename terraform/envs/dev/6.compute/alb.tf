@@ -2,15 +2,16 @@
 # Application Load Balancer for ECS with Blue/Green Deployment
 ###################
 module "alb_bg_ecs" {
-  source = "git@github.com:sun-asterisk-internal/sun-infra-iac.git//modules/aws/alb-bg?ref=terraform-aws-alb_v0.0.8"
+  source = "git@github.com:sun-asterisk-internal/sun-infra-iac.git//modules/alb-bg?ref=terraform-aws-alb_v0.0.8"
   
-  project = var.project
+  project = "img-ana"
   env     = var.env
   
   type = "ecs-bg"
   alb = {
     security_groups_id = [data.terraform_remote_state.general.outputs.alb_security_group_id]
     subnets_id         = data.terraform_remote_state.general.outputs.subnet_public_id
+    logs_bucket_id     = data.terraform_remote_state.general.outputs.s3_alb_logs_bucket_id
     access_logs = {
       bucket  = data.terraform_remote_state.general.outputs.s3_alb_logs_bucket_name
       prefix  = "alb-access-logs"
@@ -28,9 +29,11 @@ module "alb_bg_ecs" {
         health_check = {
           port                = 3000
           path                = "/api/health"
-          unhealthy_threshold = 10
-          interval            = 300
-          timeout             = 120
+          unhealthy_threshold = 3
+          healthy_threshold   = 2
+          interval            = 30
+          timeout             = 5
+          matcher             = "200"
         }
       },
       {
@@ -40,9 +43,11 @@ module "alb_bg_ecs" {
         health_check = {
           port                = 3000
           path                = "/api/health"
-          unhealthy_threshold = 10
-          interval            = 300
-          timeout             = 120
+          unhealthy_threshold = 3
+          healthy_threshold   = 2
+          interval            = 30
+          timeout             = 5
+          matcher             = "200"
         }
       }
     ]

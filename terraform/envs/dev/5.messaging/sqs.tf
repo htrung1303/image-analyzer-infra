@@ -1,5 +1,5 @@
 module "sqs_worker" {
-  source = "git@github.com:sun-asterisk-internal/sun-infra-iac.git//modules/aws/sqs?ref=terraform-aws-sqs_v0.0.1"
+  source = "git@github.com:sun-asterisk-internal/sun-infra-iac.git//modules/sqs?ref=terraform-aws-sqs_v0.0.1"
   #basic
   env     = var.env
   project = var.project
@@ -8,6 +8,7 @@ module "sqs_worker" {
   sqs = {
     name       = "worker"
     fifo_queue = true
+    visibility_timeout_seconds = 360  # Must be >= Lambda timeout (300s) + buffer
     
     kms_master_key_id                 = data.terraform_remote_state.general.outputs.kms_sqs_messages_key_arn
     kms_data_key_reuse_period_seconds = 300
@@ -50,7 +51,7 @@ module "sqs_worker" {
 }
 
 module "sqs_worker_dlq" {
-  source = "git@github.com:sun-asterisk-internal/sun-infra-iac.git//modules/aws/sqs?ref=terraform-aws-sqs_v0.0.1"
+  source = "git@github.com:sun-asterisk-internal/sun-infra-iac.git//modules/sqs?ref=terraform-aws-sqs_v0.0.1"
   #basic
   env     = var.env
   project = var.project
@@ -73,7 +74,7 @@ module "sqs_worker_dlq" {
 
 # SQS Results Queue - For Lambda to send analysis results back to ECS
 module "sqs_results" {
-  source = "git@github.com:sun-asterisk-internal/sun-infra-iac.git//modules/aws/sqs?ref=terraform-aws-sqs_v0.0.1"
+  source = "git@github.com:sun-asterisk-internal/sun-infra-iac.git//modules/sqs?ref=terraform-aws-sqs_v0.0.1"
   #basic
   env     = var.env
   project = var.project

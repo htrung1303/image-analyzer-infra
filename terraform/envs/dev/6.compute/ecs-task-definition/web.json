@@ -4,8 +4,8 @@
     "image": "${image}:${tag}",
     "portMappings": [
       {
-        "containerPort": "${containerPort}",
-        "hostPort": "${hostPort}",
+        "containerPort": ${containerPort},
+        "hostPort": ${hostPort},
         "protocol": "tcp"
       }
     ],

@@ -43,53 +43,12 @@ module "s3_alb_logs" {
       }
     ]
   }
-}
-
-module "s3_app_logs" {
-  source = "git@github.com:sun-asterisk-internal/sun-infra-iac.git//modules/s3?ref=terraform-aws-s3_v0.2.1"
-
-  s3_bucket = {
-    name = "${var.project}-${var.env}-app-logs"
-    versioning = "Enabled"
-    sse = {
-      sse_algorithm = "AES256"
-    }
-    lifecycle_versioning = {
-      status = "Enabled"
-    }
-    lifecycle = [
-      {
-        id = "manage_app_logs_lifecycle"
-        status = "Enabled"
-        expiration_days = 90
-        transition_days_standard_ia = 30
-      }
-    ]
+  s3_bucket_policy = {
+    template = data.aws_iam_policy_document.s3_alb_logs_policy.json
   }
 }
 
-module "s3_lambda_deployments" {
-  source = "git@github.com:sun-asterisk-internal/sun-infra-iac.git//modules/s3?ref=terraform-aws-s3_v0.2.1"
 
-  s3_bucket = {
-    name = "${var.project}-${var.env}-lambda-deployments"
-    versioning = "Enabled"
-    sse = {
-      sse_algorithm = "AES256"
-    }
-    lifecycle_versioning = {
-      status = "Enabled"
-    }
-    lifecycle = [
-      {
-        id = "manage_lambda_deployments_lifecycle"
-        status = "Enabled"
-        expiration_days = 180
-        transition_days_standard_ia = 60
-      }
-    ]
-  }
-}
 
 data "aws_elb_service_account" "main" {}
 

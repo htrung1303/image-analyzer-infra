@@ -11,7 +11,7 @@ module "sns_cloudwatch_alarm" {
 }
 
 module "cloudwatch_alarm_ecs" {
-  source = "git@github.com:sun-asterisk-internal/sun-infra-iac.git//modules/aws/cloudwatch-alarm?ref=terraform-aws-cloudwatch_v0.1.0"
+  source = "git@github.com:sun-asterisk-internal/sun-infra-iac.git//modules/cloudwatch-alarm?ref=terraform-aws-cloudwatch_v0.1.0"
   #basic
   env     = var.env
   project = var.project

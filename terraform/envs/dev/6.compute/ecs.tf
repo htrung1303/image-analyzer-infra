@@ -1,5 +1,5 @@
 module "ecs_api" {
-  source = "git@github.com:sun-asterisk-internal/sun-infra-iac.git//modules/aws/ecs?ref=terraform-aws-ecs_v0.0.1"
+  source = "git@github.com:sun-asterisk-internal/sun-infra-iac.git//modules/ecs?ref=terraform-aws-ecs_v0.0.1"
   #basic
   env     = var.env
   project = var.project
@@ -13,7 +13,7 @@ module "ecs_api" {
       task_definition_arn   = module.ecs_api.ecs_task_definition_arn[var.ecs.api.type]
       desired_count         = var.ecs.api.desired_count
       security_groups_id    = [data.terraform_remote_state.general.outputs.ecs_web_app_security_group_id]
-      subnets_id            = data.terraform_remote_state.general.outputs.vpc_private_subnet_ids
+      subnets_id            = data.terraform_remote_state.general.outputs.subnet_public_id
       deployment_controller = "CODE_DEPLOY"
       load_balancer = {
         target_group_arn = module.alb_bg_ecs.alb_target_group_arn["blue"]

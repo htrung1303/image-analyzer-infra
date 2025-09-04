@@ -53,6 +53,10 @@ resource "aws_vpc_endpoint" "s3" {
   tags = {
     Name = "${var.project}-${var.env}-s3-endpoint"
   }
+
+  lifecycle {
+    ignore_changes = [route_table_ids]
+  }
 }
 
 locals {
